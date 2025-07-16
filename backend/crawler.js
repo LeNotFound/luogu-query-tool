@@ -13,6 +13,22 @@ function sleep(min, max) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+/**
+ * 读取并拼接 cookies
+ */
+function getCookieString(filePath) {
+  const fsSync = require('fs');
+  const lines = fsSync.readFileSync(filePath, 'utf-8').split('\n');
+  return lines
+    .filter(line => line && !line.startsWith('#'))
+    .map(line => {
+      const parts = line.split('\t');
+      return parts.length >= 7 ? `${parts[5]}=${parts[6]}` : '';
+    })
+    .filter(Boolean)
+    .join('; ');
+}
+
 async function main() {
   // 1. 读取用户列表
   const usersPath = path.resolve(__dirname, './users.json');
@@ -30,6 +46,10 @@ async function main() {
     console.warn('创建 data 目录时出错:', e.message);
   }
 
+  // 读取 cookies
+  const cookiesPath = path.resolve(__dirname, './www.luogu.com.cn_cookies.txt');
+  const cookie = getCookieString(cookiesPath);
+
   // 3. 遍历用户
   for (const user of users) {
     const url = `https://www.luogu.com.cn/user/${user.uid}?_contentOnly=1`;
@@ -38,6 +58,8 @@ async function main() {
       const res = await axios.get(url, {
         headers: {
           'User-Agent': 'Mozilla/5.0 (compatible; crawler/1.0; +https://github.com/)',
+          'Cookie': cookie,
+          'Accept': 'application/json'
         },
         timeout: 10000,
       });

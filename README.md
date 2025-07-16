@@ -37,16 +37,30 @@ cd ../frontend
 npm install
 ```
 
-### 2. 更新数据
+### 2. 更新用户信息
 
-填写好 `users.json` 后，执行以下命令更新数据：
+1. 准备 cookies 文件：
+   - 使用 [Get cookies.txt LOCALLY](https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc) 插件的 `Export As` 选项导出洛谷 cookies 保存为 `backend/www.luogu.com.cn_cookies.txt`（Netscape 格式）。
+2. 运行自动更新脚本：
+   - 默认团队 id 为 50877，可通过命令行参数指定其他团队。（除非你在团队里才可以获取到备注名）
+
+```bash
+cd backend
+node updUser.js [团队id]
+```
+
+脚本会自动请求洛谷 API，携带 cookies，获取团队成员并更新 `users.json`。
+
+### 3. 更新做题数据
+
+确保 `backend/www.luogu.com.cn_cookies.txt` 文件存在，`crawler.js` 会自动读取并携带 cookies，无需手动填写请求头。
 
 ```bash
 cd backend
 node crawler.js
 ```
 
-### 3. 启动后端服务
+### 4. 启动后端服务
 
 ```bash
 cd backend
@@ -55,7 +69,7 @@ node index.js
 
 默认监听地址为： [http://localhost:3000](http://localhost:3000)
 
-### 4. 启动前端服务
+### 5. 启动前端服务
 
 ```bash
 cd frontend
@@ -64,7 +78,7 @@ npm run dev
 
 默认监听地址为： [http://localhost:5173](http://localhost:5173)
 
-### 5. 访问界面
+### 6. 访问界面
 
 在浏览器中打开：[http://localhost:5173](http://localhost:5173)
 
@@ -78,7 +92,8 @@ npm run dev
 ## 注意事项
 
 * `backend/data/` 下应有每位用户的 `{uid}.json` 做题记录文件。
-* `users.json` 文件用于映射用户基本信息，目前 **需手动维护**。
+* `users.json` 文件用于映射用户基本信息，可通过 `updUser.js` 自动生成。
+* cookies 文件需放在 `backend` 目录，文件名为 `www.luogu.com.cn_cookies.txt`，crawler.js 和 updUser.js 均会自动读取并携带。
 * 若需修改默认端口，请修改：
 
   * 后端端口：`backend/index.js`
@@ -86,7 +101,7 @@ npm run dev
 
 ## TODO
 
-* [ ] 自动化生成 `users.json`，支持根据页面源自动解析用户列表（爬取洛谷团队界面）
+* [x] 自动化生成 `users.json`，支持根据页面源自动解析用户列表（爬取洛谷团队界面）
 * [ ] 前端加入更新 `users.json` 的按钮，调用后端爬虫
 * [ ] 前端加入 GUI 更新 `users.json` 的界面，并在后端适配更新 `users.json` 的接口
 
