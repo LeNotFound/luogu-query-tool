@@ -13,12 +13,24 @@
 ```
 
 luogu-query-tool/
-├── backend/     # Node.js 后端服务
-│   ├── data/    # 存放各用户的做题记录（uid.json）
-│   ├── users.json  # 存放用户信息（uid、姓名、昵称、头像链接）
-│   └── index.js # 后端主服务
-├── frontend/    # Vue3 + Vite 前端项目
-│   └── src/App.vue 等组件
+├── backend/                # Node.js 后端服务
+│   ├── crawler.js          # 自动抓取做题数据脚本
+│   ├── data/               # 存放各用户的做题记录（{uid}.json）
+│   ├── index.js            # 后端主服务入口
+│   ├── updUser.js          # 自动更新 users.json 脚本
+│   ├── users.json          # 用户信息（自动生成）
+│   └── www.luogu.com.cn_cookies.txt # 洛谷 cookies 文件
+├── frontend/               # Vue3 + Vite 前端项目
+│   ├── src/                # 前端源码
+│   │   ├── App.vue         # 主组件
+│   │   ├── index.css       # 样式
+│   │   └── main.js         # 入口 JS
+│   ├── index.html          # 前端入口 HTML
+│   ├── package.json        # 前端依赖
+│   ├── postcss.config.js   # PostCSS 配置
+│   ├── tailwind.config.js  # Tailwind CSS 配置
+│   └── vite.config.js      # Vite 配置
+├── LICENSE
 └── README.md
 
 ```
