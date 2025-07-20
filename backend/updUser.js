@@ -24,7 +24,7 @@ function fetchTeamJson(url, callback) {
   const options = {
     headers: {
       'Cookie': cookie,
-      'User-Agent': 'Mozilla/5.0',
+      'User-Agent': 'curl/7.81.0',
       'Accept': 'application/json'
     }
   };

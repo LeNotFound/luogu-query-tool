@@ -57,7 +57,7 @@ async function main() {
     try {
       const res = await axios.get(url, {
         headers: {
-          'User-Agent': 'Mozilla/5.0 (compatible; crawler/1.0; +https://github.com/)',
+          'User-Agent': 'curl/7.81.0',
           'Cookie': cookie,
           'Accept': 'application/json'
         },
