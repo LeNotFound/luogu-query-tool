@@ -92,6 +92,8 @@ const allUsers = ref([]) // 所有用户信息
 const selectedUids = ref(new Set()) // 选中的uid集合
 const showRealname = ref(true) // 是否显示真实姓名
 
+const API_BASE = window.location.origin.replace(/:\d+$/, ':3000') // 适配服务端部署
+
 function toggleUser(uid) {
   if (selectedUids.value.has(uid)) {
     selectedUids.value.delete(uid)
@@ -111,7 +113,7 @@ function reverseSelect() {
 
 async function refreshUsers() {
   try {
-    const res = await fetch('http://localhost:3000/users')
+    const res = await fetch(`${API_BASE}/users`)
     if (!res.ok) throw new Error('获取用户信息失败')
     const data = await res.json()
     allUsers.value = data
@@ -134,7 +136,7 @@ async function onQuery() {
   loading.value = true
   try {
     const uids = Array.from(selectedUids.value)
-    const res = await fetch(`http://localhost:3000/query/${encodeURIComponent(pid.value.trim())}?uids=${uids.join(',')}`)
+    const res = await fetch(`${API_BASE}/query/${encodeURIComponent(pid.value.trim())}?uids=${uids.join(',')}`)
     if (!res.ok) throw new Error('查询失败')
     const data = await res.json()
     if (Array.isArray(data) && data.length > 0) {
